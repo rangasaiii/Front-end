@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transport Ticket Management System</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to Transport Ticket Booking</h1>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/037/470/116/small_2x/ai-generated-touristic-coach-bus-on-highway-road-intercity-regional-domestic-transportation-driving-urban-modern-tour-traveling-travel-journey-ride-moving-transport-concept-public-comfortable-photo.jpg" class="card-img-top" alt="Bus">
+                <div class="card-body">
+                    <h5 class="card-title">Book Bus Ticket</h5>
+                    <p class="card-text">Choose from a variety of buses and timings.</p>
+                    <button onclick="showSection('bus-section')" class="btn btn-primary">Book Bus</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <img src="https://urbantransportnews.com/assets/uploads/gallary/20200907221348.jpg" class="card-img-top" alt="Train">
+                <div class="card-body">
+                    <h5 class="card-title">Book Train Ticket</h5>
+                    <p class="card-text">Select your preferred train and departure times.</p>
+                    <button onclick="showSection('train-section')" class="btn btn-primary">Book Train</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bus Section -->
+<div id="bus-section" style="display:none;">
+    <h2>Bus Ticket Booking</h2>
+    <form id="bus-ticket-form" class="ticket-form" onsubmit="return validateBusForm()">
+        <input type="text" id="bus-name" class="form-control" placeholder="Bus Name" required><br>
+        <input type="text" id="bus-timings" class="form-control" placeholder="Timings" required><br>
+        <input type="number" id="bus-price" class="form-control" placeholder="Ticket Price" required><br>
+        <input type="text" id="bus-passenger-name" class="form-control" placeholder="Name" required><br>
+        <input type="text" id="bus-from" class="form-control" placeholder="From" required><br>
+        <input type="text" id="bus-to" class="form-control" placeholder="To" required><br>
+        <select id="bus-gender" class="form-control" required>
+            <option value="">Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Kids">Kids</option>
+        </select><br>
+        <input type="number" id="bus-tickets" class="form-control" placeholder="Number of Tickets" required><br>
+        <input type="number" id="bus-seat" class="form-control" placeholder="Seat No" required><br>
+        <input type="text" id="bus-mobile" class="form-control" placeholder="Mobile Number" required><br>
+        <button type="submit" class="btn btn-primary">Book Ticket</button>
+    </form>
+</div>
+
+<!-- Train Section -->
+<div id="train-section" style="display:none;">
+    <h2>Train Ticket Booking</h2>
+    <form id="train-ticket-form" class="ticket-form" onsubmit="return validateTrainForm()">
+        <input type="text" id="train-name" class="form-control" placeholder="Train Name" required><br>
+        <input type="text" id="train-timings" class="form-control" placeholder="Timings" required><br>
+        <input type="number" id="train-price" class="form-control" placeholder="Ticket Price" required><br>
+        <input type="text" id="train-passenger-name" class="form-control" placeholder="Name" required><br>
+        <input type="text" id="train-from" class="form-control" placeholder="From" required><br>
+        <input type="text" id="train-to" class="form-control" placeholder="To" required><br>
+        <select id="train-gender" class="form-control" required>
+            <option value="">Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Kids">Kids</option>
+        </select><br>
+        <input type="number" id="train-tickets" class="form-control" placeholder="Number of Tickets" required><br>
+        <input type="number" id="train-seat" class="form-control" placeholder="Seat No" required><br>
+        <input type="text" id="train-mobile" class="form-control" placeholder="Mobile Number" required><br>
+        <button type="submit" class="btn btn-primary">Book Ticket</button>
+    </form>
+</div>
+
+<!-- Cancellation Section -->
+<div id="cancel-section" style="display:none;">
+    <h2>Cancel Ticket</h2>
+    <form id="cancel-ticket-form" class="ticket-form" onsubmit="return validateCancelForm()">
+        <select id="cancel-type" class="form-control" required>
+            <option value="">Ticket Type</option>
+            <option value="Bus">Bus</option>
+            <option value="Train">Train</option>
+        </select><br>
+        <input type="text" id="cancel-name" class="form-control" placeholder="Name" required><br>
+        <input type="number" id="cancel-seat" class="form-control" placeholder="Seat No" required><br>
+        <input type="text" id="cancel-mobile" class="form-control" placeholder="Mobile Number" required><br>
+        <button type="submit" class="btn btn-danger">Cancel Ticket</button>
+    </form>
+</div>
+
+<!-- Ticket History -->
+<div id="ticket-history" style="display: none;">
+    <h3>Ticket History</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Seat No</th>
+                <th>Gender</th>
+                <th>Tickets</th>
+                <th>Mobile Number</th>
+                <th>Bus/Train Name</th>
+                <th>Timings</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="history-table-body">
+            <!-- Dynamically added ticket history -->
+        </tbody>
+    </table>
+</div>
+
+<!-- View Ticket History Button -->
+<button onclick="showHistory()" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;">View Ticket History</button>
+<button onclick="showSection('cancel-section')" class="btn btn-warning" style="position: fixed; bottom: 20px; left: 20px;">Cancel Ticket</button>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+function showSection(sectionId) {
+    document.querySelector('.container').style.display = 'none';
+    document.getElementById('bus-section').style.display = 'none';
+    document.getElementById('train-section').style.display = 'none';
+    document.getElementById('cancel-section').style.display = 'none';
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+function bookTicket(type, name, seat, mobile, vehicleName, timings, price, gender, tickets) {
+    const tableBody = document.getElementById('history-table-body');
+    const newRow = tableBody.insertRow();
+    newRow.innerHTML = `<td>${type}</td><td>${name}</td><td>${seat}</td><td>${gender}</td><td>${tickets}</td><td>${mobile}</td><td>${vehicleName}</td><td>${timings}</td><td>$${price}</td>`;
+
+    alert(`Your ${type} ticket for ${vehicleName} at ${timings} for $${price} has been booked successfully. ${tickets} tickets booked.`);
+    showSection('ticket-history');
+}
+
+function showHistory() {
+    document.getElementById('ticket-history').style.display = 'block';
+}
+
+function validateBusForm() {
+    const busName = document.getElementById('bus-name').value;
+    const busTimings = document.getElementById('bus-timings').value;
+    const busPrice = document.getElementById('bus-price').value;
+    const busPassengerName = document.getElementById('bus-passenger-name').value;
+    const busFrom = document.getElementById('bus-from').value;
+    const busTo = document.getElementById('bus-to').value;
+    const busGender = document.getElementById('bus-gender').value;
+    const busTickets = document.getElementById('bus-tickets').value;
+    const busSeat = document.getElementById('bus-seat').value;
+    const busMobile = document.getElementById('bus-mobile').value;
+
+    if (!busName || !busTimings || !busPrice || !busPassengerName || !busFrom || !busTo || !busGender || !busTickets || !busSeat || !busMobile) {
+        alert('Please fill all fields.');
+        return false;
+    }
+
+    openConfirmModal('Bus');
+    return false;
+}
+
+function validateTrainForm() {
+    const trainName = document.getElementById('train-name').value;
+    const trainTimings = document.getElementById('train-timings').value;
+    const trainPrice = document.getElementById('train-price').value;
+    const trainPassengerName = document.getElementById('train-passenger-name').value;
+    const trainFrom = document.getElementById('train-from').value;
+    const trainTo = document.getElementById('train-to').value;
+    const trainGender = document.getElementById('train-gender').value;
+    const trainTickets = document.getElementById('train-tickets').value;
+    const trainSeat = document.getElementById('train-seat').value;
+    const trainMobile = document.getElementById('train-mobile').value;
+
+    if (!trainName || !trainTimings || !trainPrice || !trainPassengerName || !trainFrom || !trainTo || !trainGender || !trainTickets || !trainSeat || !trainMobile) {
+        alert('Please fill all fields.');
+        return false;
+    }
+
+    openConfirmModal('Train');
+    return false;
+}
+
+function validateCancelForm() {
+    const cancelType = document.getElementById('cancel-type').value;
+    const cancelName = document.getElementById('cancel-name').value;
+    const cancelSeat = document.getElementById('cancel-seat').value;
+    const cancelMobile = document.getElementById('cancel-mobile').value;
+
+    if (!cancelType || !cancelName || !cancelSeat || !cancelMobile) {
+        alert('Please fill all fields.');
+        return false;
+    }
+
+    // Find and remove the ticket from the history
+    const tableBody = document.getElementById('history-table-body');
+    let found = false;
+    for (let i = 0; i < tableBody.rows.length; i++) {
+        const row = tableBody.rows[i];
+        if (row.cells[0].innerText === cancelType && row.cells[1].innerText === cancelName && row.cells[2].innerText === cancelSeat && row.cells[5].innerText === cancelMobile) {
+            tableBody.deleteRow(i);
+            alert('Ticket cancelled successfully.');
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        alert('Ticket not found.');
+    }
+
+    return true;
+}
+
+function openConfirmModal(type) {
+    const name = document.getElementById(type.toLowerCase() + '-passenger-name').value;
+    const seat = document.getElementById(type.toLowerCase() + '-seat').value;
+    const mobile = document.getElementById(type.toLowerCase() + '-mobile').value;
+    const vehicleName = document.getElementById(type.toLowerCase() + '-name').value;
+    const timings = document.getElementById(type.toLowerCase() + '-timings').value;
+    const price = document.getElementById(type.toLowerCase() + '-price').value;
+    const gender = document.getElementById(type.toLowerCase() + '-gender').value;
+    const tickets = document.getElementById(type.toLowerCase() + '-tickets').value;
+
+    const message = `Confirm booking:\nType: ${type}\nName: ${name}\nSeat: ${seat}\nTickets: ${tickets}\nMobile: ${mobile}\nVehicle: ${vehicleName}\nTimings: ${timings}\nPrice: $${price}\nGender: ${gender}`;
+    if (confirm(message)) {
+        bookTicket(type, name, seat, mobile, vehicleName, timings, price, gender, tickets);
+    }
+}
+</script>
+
+</body>
+</html>
